@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockfloetenspatzen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Top bar — group name only -->
+<header class="site-header" id="siteHeader">
+  <a href="#" class="site-name">Blockfloetenspatzen</a>
+</header>
+
+<!-- Full-screen nav overlay — music platforms -->
+<div class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <nav class="nav-panel" aria-label="Listen">
+    <ul>
+      <li>
+        <a href="https://open.spotify.com/" target="_blank" rel="noopener">
+          <i class="fa-brands fa-spotify" aria-hidden="true"></i>
+          <span>Spotify</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener">
+          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+          <span>YouTube</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://soundcloud.com/" target="_blank" rel="noopener">
+          <i class="fa-brands fa-soundcloud" aria-hidden="true"></i>
+          <span>SoundCloud</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<!-- Floating DJ disk button -->
+<button class="dj-button" id="djButton" type="button"
+        aria-label="Open menu" aria-expanded="false" aria-controls="navOverlay">
+  <span class="dj-vinyl" aria-hidden="true"></span>
+</button>
+
+<div class="hero-track">
+  <section class="hero" aria-label="Blockfloetenspatzen hero">
+    <div class="hero-title-wrap" id="titleWrap">
+      <h1 class="hero-title" id="title" aria-label="Blockfloetenspatzen"></h1>
+    </div>
+    <div class="bird-mask" aria-hidden="true">
+      <img src="bird.svg" alt="">
+    </div>
+  </section>
+</div>
+
+<!-- ─────────── Lorem section ─────────── -->
+<section class="lorem-section" id="about" aria-label="About">
+  <figure class="img-slot img-1 desktop-only">
+    <img src="1.jpg" alt="">
+  </figure>
+
+  <div class="lorem-copy">
+    <div class="lorem-block">
+      <h2>Lorem ipsum dolor</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <figure class="img-slot img-1 mobile-only">
+        <img src="1.jpg" alt="">
+      </figure>
+    </div>
+
+    <div class="lorem-block">
+      <h2>Sed do eiusmod tempor</h2>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <figure class="img-slot img-2 mobile-only">
+        <img src="2.jpg" alt="">
+      </figure>
+    </div>
+
+    <div class="lorem-block">
+      <h2>Ut enim ad minim veniam</h2>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    </div>
+  </div>
+
+  <figure class="img-slot img-2 desktop-only">
+    <img src="2.jpg" alt="">
+  </figure>
+</section>
+
+<!-- ─────────── Music section ─────────── -->
+<section class="music-section" id="music" aria-label="DJ's vom Chiemsee">
+  <h2 class="music-title" id="musicTitle">DJ’S VOM CHIEMSEE</h2>
+</section>
+
+<!-- ─────────── Video section ─────────── -->
+<section class="video-section" aria-label="Video">
+  <video class="video-hero" src="video1.mp4" autoplay muted loop playsinline></video>
+</section>
+
+<!-- ─────────── Events section ─────────── -->
+<section class="events-section" id="events" aria-label="Events">
+
+  <div class="events-bird events-bird-left" aria-hidden="true"></div>
+
+  <div class="events-content">
+    <article class="event">
+      <div class="event-time">7 P M &nbsp;-&nbsp; 1 1 P M</div>
+      <h2 class="event-heading">Lorem Ipsum Night</h2>
+      <p class="event-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <div class="event-date">April 12, 2026</div>
+      <div class="event-location">Berlin</div>
+    </article>
+  </div>
+
+  <div class="events-bird events-bird-right" aria-hidden="true"></div>
+
+</section>
+
+<!-- ─────────── Footer ─────────── -->
+<footer class="site-footer" id="contact" aria-label="Contact">
+  <div class="footer-inner">
+
+    <div class="footer-social">
+      <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="bi bi-instagram" aria-hidden="true"></i>
+      </a>
+      <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <i class="bi bi-whatsapp" aria-hidden="true"></i>
+      </a>
+      <a href="https://snapchat.com/" target="_blank" rel="noopener" aria-label="Snapchat">
+        <i class="bi bi-snapchat" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    <div class="footer-contact">
+      <a class="footer-email" href="mailto:blockfloeten.spatzen@gmx.de">blockfloeten.spatzen@gmx.de</a>
+      <div class="footer-location">Berlin, Germany</div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Blockfloetenspatzen</span>
+    <span>All rights reserved</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
