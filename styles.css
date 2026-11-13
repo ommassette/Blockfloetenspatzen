@@ -125,7 +125,7 @@ body {
 
 .lorem-copy {
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  color: #bf0608;
+  color: #e10002;
   text-transform: uppercase;
   text-align: justify;
   text-align-last: center;
@@ -219,7 +219,7 @@ body {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1rem, 1.3vw, 1.4rem);
   letter-spacing: 0.22em;
-  color: #bf0608;
+  color: #e10002;
   text-decoration: none;
   text-transform: uppercase;
   transition: opacity 0.2s ease;
@@ -277,7 +277,7 @@ body {
     repeating-radial-gradient(circle at center,
       transparent 0%, transparent 5%,
       rgba(0, 0, 0, 0.18) 5%, rgba(0, 0, 0, 0.18) 5.4%),
-    #bf0608;
+    #e10002;
   box-shadow:
     0 10px 30px rgba(225, 0, 2, 0.35),
     0 4px 12px rgba(0, 0, 0, 0.25),
@@ -362,7 +362,7 @@ body {
 
 .nav-panel a:hover,
 .nav-panel a:focus-visible {
-  color: #bf0608;
+  color: #e10002;
   outline: none;
 }
 
@@ -624,7 +624,7 @@ body.nav-open { overflow: hidden; }
 
 .footer-social a:hover,
 .footer-social a:focus-visible {
-  color: #bf0608;
+  color: #e10002;
   transform: scale(1.08);
   outline: none;
 }
@@ -654,7 +654,7 @@ body.nav-open { overflow: hidden; }
 
 .footer-email:hover,
 .footer-email:focus-visible {
-  color: #bf0608;
+  color: #e10002;
   outline: none;
 }
 

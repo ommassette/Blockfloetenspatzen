@@ -81,15 +81,8 @@
     });
   }
 
-  /* ─────────── Music title — font-aware width fit ─────────── */
   function fitMusicTitle() {
     if (!musicTitle) return;
-
-    /* Bail out until Bebas Neue is genuinely loaded at this size */
-    if (document.fonts && document.fonts.check) {
-      if (!document.fonts.check('400 100px "Bebas Neue"')) return;
-    }
-
     const vw = document.documentElement.clientWidth;
     const pad = vw * 0.005;
     const availW = vw - pad * 2;
@@ -98,60 +91,51 @@
     const lines = musicTitle.querySelectorAll('.music-line');
     let widest = 0;
     lines.forEach(l => { widest = Math.max(l.offsetWidth, widest); });
-    if (!widest || !isFinite(widest)) return;
+    if (!widest) return;
 
     const size = (availW / widest) * 100;
-    if (!isFinite(size) || size <= 0) return;
     musicTitle.style.fontSize = size + 'px';
   }
 
-  /* ─────────── Music section — exact glyph height ─────────── */
+  /* ─────────── Music section — size to actual glyph height, not line box ─────────── */
   function fitMusicSection() {
     const section = document.querySelector('.music-section');
     if (!section || !musicTitle) return;
-
-    if (document.fonts && document.fonts.check) {
-      if (!document.fonts.check('400 100px "Bebas Neue"')) return;
-    }
 
     const isMobile = document.documentElement.clientWidth < 780;
     const stretch  = isMobile ? 1.4 : 2.2;
     document.documentElement.style.setProperty('--music-stretch', stretch);
 
-    const styles        = getComputedStyle(musicTitle);
-    const fontSize      = parseFloat(styles.fontSize) || 100;
-    const lineHeightRaw = parseFloat(styles.lineHeight);
-    const lineHeight    = isFinite(lineHeightRaw) ? lineHeightRaw : fontSize * 0.8;
-    const lineCount     = musicTitle.querySelectorAll('.music-line').length || 1;
+    const styles     = getComputedStyle(musicTitle);
+    const fontSize   = parseFloat(styles.fontSize);
+    const lineHeight = parseFloat(styles.lineHeight);
+    const lineCount  = musicTitle.querySelectorAll('.music-line').length;
+    if (!lineCount || !fontSize || !lineHeight) return;
 
-    let fontAscent, fontDescent, capHeight, capDescent;
-    try {
-      const canvas = document.createElement('canvas');
-      const ctx    = canvas.getContext('2d');
-      ctx.font = `400 ${fontSize}px "Bebas Neue", sans-serif`;
-      const m = ctx.measureText('DJSCVHIM');
-      fontAscent  = m.fontBoundingBoxAscent   || fontSize * 0.8;
-      fontDescent = m.fontBoundingBoxDescent  || fontSize * 0.2;
-      capHeight   = m.actualBoundingBoxAscent || fontSize * 0.7;
-      capDescent  = m.actualBoundingBoxDescent || 0;
-    } catch (e) {
-      fontAscent  = fontSize * 0.8;
-      fontDescent = fontSize * 0.2;
-      capHeight   = fontSize * 0.7;
-      capDescent  = 0;
-    }
+    /* Font metrics via canvas — gives exact cap glyph bounds */
+    const canvas = document.createElement('canvas');
+    const ctx    = canvas.getContext('2d');
+    ctx.font = `400 ${fontSize}px "Bebas Neue"`;
+    const m = ctx.measureText('DJSCVHIM');
 
-    const halfLeading         = (lineHeight - fontAscent - fontDescent) / 2;
-    const baselineFromLineTop = halfLeading + fontAscent;
-    const glyphTop            = baselineFromLineTop - capHeight;
-    const glyphBottom         = (lineCount - 1) * lineHeight + baselineFromLineTop + capDescent;
-    const glyphHeight         = glyphBottom - glyphTop;
-    if (!isFinite(glyphHeight) || glyphHeight <= 0) return;
+    const fontAscent  = m.fontBoundingBoxAscent   || fontSize * 0.8;
+    const fontDescent = m.fontBoundingBoxDescent  || fontSize * 0.2;
+    const capHeight   = m.actualBoundingBoxAscent  || fontSize * 0.7;
+    const capDescent  = m.actualBoundingBoxDescent || 0;
 
-    const innerCenter = (lineCount * lineHeight) / 2;
-    const glyphCenter = (glyphTop + glyphBottom) / 2;
-    const translateY  = stretch * (innerCenter - glyphCenter);
-    if (!isFinite(translateY)) return;
+    /* Where the baseline sits inside each line box */
+    const halfLeading           = (lineHeight - fontAscent - fontDescent) / 2;
+    const baselineFromLineTop   = halfLeading + fontAscent;
+
+    /* Exact glyph bounds within the untransformed element */
+    const glyphTop    = baselineFromLineTop - capHeight;
+    const glyphBottom = (lineCount - 1) * lineHeight + baselineFromLineTop + capDescent;
+    const glyphHeight = glyphBottom - glyphTop;
+
+    /* Shift so the glyph center aligns with section center */
+    const innerCenter  = (lineCount * lineHeight) / 2;
+    const glyphCenter  = (glyphTop + glyphBottom) / 2;
+    const translateY   = stretch * (innerCenter - glyphCenter);
 
     document.documentElement.style.setProperty('--music-ty', translateY + 'px');
     section.style.height = (glyphHeight * stretch) + 'px';
@@ -162,50 +146,26 @@
     const videoSection = document.querySelector('.video-section');
     const musicSection = document.querySelector('.music-section');
     if (!videoSection || !musicSection) return;
-    const h = musicSection.offsetHeight;
-    if (!h || !isFinite(h) || h <= 0) return;
-    videoSection.style.height = h + 'px';
+    videoSection.style.height = musicSection.offsetHeight + 'px';
   }
 
   /* ─────────── Boot ─────────── */
-  async function boot() {
+  function boot() {
     if (booted) return;
     booted = true;
-
-    /* Explicitly wait for every font weight used on the page */
-    try {
-      if (document.fonts && document.fonts.load) {
-        await Promise.all([
-          document.fonts.load('400 100px "Bebas Neue"'),
-          document.fonts.load('800 100px "Plus Jakarta Sans"'),
-          document.fonts.load('300 100px "Plus Jakarta Sans"'),
-          document.fonts.load('500 100px "Plus Jakarta Sans"')
-        ]);
-      }
-    } catch (err) {
-      console.warn('Font preload issue:', err);
-    }
-
     requestAnimationFrame(() => {
-      try {
-        fitTitle();
-        buildMusicTitle();
-        fitMusicTitle();
-        fitMusicSection();
-        syncVideoHeight();
-        title.classList.add('is-ready');
-      } catch (err) {
-        console.error('Boot error:', err);
-      }
+      fitTitle();
+      buildMusicTitle();
+      fitMusicTitle();
+      fitMusicSection();
+      syncVideoHeight();
+      title.classList.add('is-ready');
     });
   }
 
-  /* Multiple triggers — first to fire wins, rest no-op via `booted` flag */
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(boot);
-  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);
   window.addEventListener('load', boot);
-  setTimeout(() => { if (!booted) boot(); }, 3000);
+  setTimeout(boot, 1500);
 
   /* ─────────── Scroll-linked effects ─────────── */
   let scheduled = false;
